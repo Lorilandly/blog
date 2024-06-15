@@ -1,4 +1,5 @@
 ---
-title: Welcome to my blog
+title: Haoan (Lori) Li
 ---
 
+Welcome to my blog!
