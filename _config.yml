@@ -1,8 +1,19 @@
 title: Lori's blog
 description: >
-  Welcome to my personal website! I'm Haoan (Lori) Li, a software engineer currently pursuing a Master of Science in Software Engineering at Carnegie Mellon University's Silicon Valley campus. With a strong background in system engineering, artificial intelligence, and web development, I have experience in creating Operating systems and human traffic monitoring systems with AI for an air poirt. I am proficient in C/C++, Rust, Python, Java, and other languages. With hand-on experience and perfect communication skills, I am eager to innovate and contribute my problem solving abilities to the software industry.
+  I am a engineer who likes to play with technologies and work on personal projects. This is a web archive that contains records of my journey, and the right place for you if you are like me!
 
-theme: minima
+baseurl: /blog
+remote_theme: jekyll/minima
 author:
   name: Lori
   email: haoanli@andrew.cmu.edu
+
+header_pages:
+  - about.md
+
+minima:
+  social_links:
+    - { platform: github,         user_url: "https://github.com/lorilandly" }
+    - { platform: google_scholar, user_url: "https://scholar.google.com/citations?user=ygZZJPgAAAAJ" }
+    - { platform: instagram,      user_url: "https://www.instagram.com/the_loriland" }
+    - { platform: linkedin,       user_url: "https://www.linkedin.com/in/lorilandly" }
