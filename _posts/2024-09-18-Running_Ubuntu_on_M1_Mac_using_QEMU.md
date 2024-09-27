@@ -33,7 +33,7 @@ Note that the image format here is `raw`, not `qcow2` used commonly for X86_64. 
 With these two images ready, You can start to install Ubuntu onto your VM.
 
 ```bash
-sudo qemu-system-aarch64 \
+qemu-system-aarch64 \
         -M virt,highmem=off \
         -accel hvf \
         -cpu host \
@@ -50,7 +50,7 @@ In the launch command, `-M` sets the machine type to `virt`, `-accel hvf` enable
 After you get into the VM, follow the Ubuntu installing wizard to install Ubuntu. The next time you boot up, you will not need the `-cdrom` argument.
 
 ```bash
-sudo qemu-system-aarch64 \
+qemu-system-aarch64 \
         -M virt,highmem=off \
         -accel hvf \
         -cpu host \
@@ -64,6 +64,35 @@ sudo qemu-system-aarch64 \
 ## Connecting to the VM with SSH
 When you start your VM, you will find that the terminal of the VM is connected to your machine, but the size of the terminal is fixed and it only occupies a small portion of your screen. It bugs you so badly and start scratching your head finding ways you could extend the terminal to the entirety of your screem. 
 
+But then you realize that you don't really need the terminal to be working anyways. Just connect to the VM through SSH! To do so, you will just need to attach the SSH port of the VM to your local machine like so.
+
+```bash
+qemu-system-aarch64 \
+        -M virt,highmem=off \
+        -accel hvf \
+        -cpu host \
+        -smp 2 \
+        -m 2G \
+        -nographic \
+        -drive if=virtio,format=raw,file=./ubuntu.img \
+        -bios QEMU_EFI.fd \
+        -net user,hostfwd=tcp::10022-:22 -net nic
+```
+
+What the line added above basically did is that it connected the port 22 on the VM to the port 10022 on the host machine with a TCP tunnel. Now you can connect to the VM on the port `10022` on your localhost.
+
+## Allowing the VM to access USB devices
+The reason I'm creating this VM is to write code for my little embedded board. For that I'll of course need the VM to connect to the little thing. For that the USB device need to be forwarded to the VM. For that, you first need to confirm the ID of your USB device. On MacOS, you can find the information by looking under the USB section in your "System Information" APP. A USB device will have a vender ID and a product ID. These tells your computer what device have been connected. You don't need to decypher the ID's, just record them.
+
+```bash
+-device qemu-xhci \
+-device usb-host,vendorid=0x1d50,productid=0x6018
+```
+
+The first line here attaches a USB bus to the VM, and the second line pass through the specific USB device to the VM. My device has a vendor ID of `0x1d50` and product ID of `0x6018`, you can look up what kind of device I'm using if you want :)
+
+
+## TBC...
 
 ```bash
 truncate -s 64m efi.img
