@@ -92,8 +92,31 @@ The reason I'm creating this VM is to write code for my little embedded board. F
 The first line here attaches a USB bus to the VM, and the second line pass through the specific USB device to the VM. My device has a vendor ID of `0x1d50` and product ID of `0x6018`, you can look up what kind of device I'm using if you want :)
 
 
-## TBC...
+## Another way of doing bootloader
+Currently the bios conbines the EFI partition and the varstore partition. Apparently it is a better practice to separate these partitions so that we have a read only partition and R/W partition. For that we will need to download the EFI from another external source.
 
+```bash
+  curl -O https://yum.oracle.com/repo/OracleLinux/OL7/latest/aarch64/getPackage/AAVMF-1.5.1-1.el7.noarch.rpm
+rpm2cpio AAVMF-1.5.1-1.el7.noarch.rpm | cpio -ivd usr/share/AAVMF/AAVMF_{VARS,CODE}.fd
+```
+
+Prep the images like so
+
+```bash
+dd if=/dev/zero of=pflash0.img bs=1m count=64
+dd if=/dev/zero of=pflash1.img bs=1m count=64
+dd if=usr/share/AAVMF/AAVMF_CODE.fd of=pflash0.img conv=notrunc
+dd if=usr/share/AAVMF/AAVMF_VARS.fd of=pflash1.img conv=notrunc
+```
+
+And replace the `-bios` with the following
+
+```bash
+    -drive file=pflash0.img,format=raw,if=pflash,readonly=on \
+    -drive file=pflash1.img,format=raw,if=pflash \
+```
+
+## TBC...
 ```bash
 truncate -s 64m efi.img
 dd if=/usr/share/qemu-efi-aarch64/QEMU_EFI.fd of=efi.img conv=notrunc
