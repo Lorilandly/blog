@@ -121,3 +121,8 @@ And replace the `-bios` with the following
 truncate -s 64m efi.img
 dd if=/usr/share/qemu-efi-aarch64/QEMU_EFI.fd of=efi.img conv=notrunc
 ```
+
+### References
+> https://blogs.oracle.com/linux/post/oracle-linux-9-with-qemu-on-an-m1-mac
+> https://adonis0147.github.io/post/qemu-macos-apple-silicon/
+> https://ubuntu.com/server/docs/boot-arm64-virtual-machines-on-qemu
