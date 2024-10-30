@@ -17,3 +17,5 @@ minima:
     - { platform: google_scholar, user_url: "https://scholar.google.com/citations?user=ygZZJPgAAAAJ" }
     - { platform: instagram,      user_url: "https://www.instagram.com/the_loriland" }
     - { platform: linkedin,       user_url: "https://www.linkedin.com/in/lorilandly" }
+
+google_analytics: G-FZXW6MDNQJ
